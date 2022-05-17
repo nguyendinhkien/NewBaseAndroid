@@ -22,7 +22,7 @@ class PrefsHelperImpl @Inject constructor(private val sharedPreferences: SharedP
         editor.apply()
     }
 
-    override fun readString(prefName: String, defValue: String): String {
+    override fun readString(prefName: String, defValue: String?): String? {
         return sharedPreferences.getString(prefName, defValue) ?: defValue
     }
 

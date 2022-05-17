@@ -34,5 +34,6 @@ local.properties
 /.idea/caches
 /.idea/modules.xml
 /.idea/navEditor.xml
+/.idea/misc.xml
 # Log Files
 *.log

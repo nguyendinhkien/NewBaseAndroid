@@ -8,7 +8,7 @@ interface PrefsHelper {
 
     fun saveToInteger(prefName: String, prefValue: Int)
 
-    fun readString(prefName: String, defValue: String): String
+    fun readString(prefName: String, defValue: String?): String?
 
     fun readBoolean(prefName: String, defValue: Boolean): Boolean
 

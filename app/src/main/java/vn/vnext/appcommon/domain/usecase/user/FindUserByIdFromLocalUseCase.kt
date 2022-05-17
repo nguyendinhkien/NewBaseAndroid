@@ -1,4 +1,4 @@
-package vn.vnext.appcommon.domain.usecase
+package vn.vnext.appcommon.domain.usecase.user
 
 import vn.vnext.appcommon.domain.repository.UserRepository
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package vn.vnext.appcommon.domain.usecase
+package vn.vnext.appcommon.domain.usecase.user
 
 import vn.vnext.appcommon.data.source.local.entities.UserEntity
 import vn.vnext.appcommon.domain.repository.UserRepository
