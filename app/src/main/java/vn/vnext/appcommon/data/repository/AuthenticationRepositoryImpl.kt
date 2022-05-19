@@ -15,16 +15,10 @@ class AuthenticationRepositoryImpl @Inject constructor(
     private val prefsHelper: PrefsHelper
 ) : IAuthenticationRepository {
     override suspend fun login(paramsLogin: ParamsLogin): Flow<BaseResponse<UserModel>> {
+
         val flowLogin = NetworkUtils.safeCallApi {
             api.login(paramsLogin)
         }
-
-        flowLogin.collect { response ->
-            if (response is BaseResponse.Success && response.data.token != null) {
-                prefsHelper.saveToString("token", response.data.token!!)
-            }
-        }
-
         return flowLogin
     }
 }

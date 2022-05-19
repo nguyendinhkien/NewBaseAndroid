@@ -46,9 +46,11 @@ class NetworkUtils {
         ): Flow<BaseResponse<T>> {
             return flow {
                 val response = networkApiCall()
+                println("--------------------login request")
                 if (response.isSuccessful) {
                     response.body()?.let {
                         emit(BaseResponse.Success(it))
+
                     }
                         ?: emit(BaseResponse.Failure(NetworkErrorException(errorMessage = "Empty response body")))
                     return@flow
