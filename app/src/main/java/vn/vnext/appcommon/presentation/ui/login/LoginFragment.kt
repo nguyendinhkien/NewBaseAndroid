@@ -14,7 +14,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val viewModel: LoginViewModel by viewModels()
     override fun onViewReady(savedInstanceState: Bundle?) {
-
         viewModel.login(ParamsLogin("admin", "password123"))
     }
 
