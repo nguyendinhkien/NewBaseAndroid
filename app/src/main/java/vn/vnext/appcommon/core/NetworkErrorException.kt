@@ -6,7 +6,6 @@ import retrofit2.HttpException
 class NetworkErrorException(
     val errorCode: Int = -1,
     private val errorMessage: String,
-    response: String = ""
 ) : Exception() {
     override val message: String
         get() = localizedMessage

@@ -21,15 +21,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:hint=" "
         app:layout_constraintTop_toBottomOf="@id/text_welcome">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:maxLines="1"
-            android:autofillHints="username"
             android:digits="@string/text_input_filter"
-            android:inputType="textFilter" />
+            android:hint="@string/text_hint_username"
+            android:inputType="textFilter"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -37,22 +38,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="@string/text_hint_password"
+        android:hint=" "
         app:layout_constraintTop_toBottomOf="@id/til_username">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="@string/text_hint_password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/check_box_remember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Remember"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_password" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_login"
@@ -60,6 +55,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Login"
-        app:layout_constraintTop_toBottomOf="@id/check_box_remember" />
+        app:layout_constraintTop_toBottomOf="@id/til_password" />
+    <TextView
+        android:id="@+id/button_register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/text_button_register"
+        android:textColor="@color/purple_700"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

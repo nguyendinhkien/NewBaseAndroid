@@ -5,5 +5,9 @@
     <string name="text_hint_password">Password</string>
     <string name="text_hint_username">Username</string>
     <string name="text_title_welcome">Welcome</string>
-    <string name="text_input_filter">QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm123456789</string>
+    <string name="text_input_filter">QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm123456789_-</string>
+    <string name="text_error_username_invalid">Username is invalid</string>
+    <string name="text_error_password_invalid">Password is invalid</string>
+    <string name="text_button_logout">Logout</string>
+    <string name="text_button_register">Register</string>
 </resources>

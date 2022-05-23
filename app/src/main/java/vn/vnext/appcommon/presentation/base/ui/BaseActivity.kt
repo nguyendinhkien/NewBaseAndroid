@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<B : ViewBinding>(bindingFactory: (LayoutInflater) -> B) : AppCompatActivity() {
+abstract class BaseActivity<B : ViewBinding>(bindingFactory: (LayoutInflater) -> B) :
+    AppCompatActivity() {
 
     protected val binding: B by lazy { bindingFactory(layoutInflater) }
 

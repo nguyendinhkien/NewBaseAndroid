@@ -1,9 +1,10 @@
-package vn.vnext.appcommon
+package vn.vnext.appcommon.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import vn.vnext.appcommon.databinding.ActivityMainBinding
 import vn.vnext.appcommon.domain.model.login.ParamsLogin
