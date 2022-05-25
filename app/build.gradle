@@ -21,10 +21,44 @@ android {
 
     buildTypes {
         release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
             minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        staging {
+            applicationIdSuffix ".staging"
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        develop {
+            dimension "version"
+            applicationIdSuffix = ".dev"
+            resValue "string", "app_name", "[DEV] App Common"
+        }
+
+        product {
+            dimension "version"
+            resValue "string", "app_name", "App Common"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
