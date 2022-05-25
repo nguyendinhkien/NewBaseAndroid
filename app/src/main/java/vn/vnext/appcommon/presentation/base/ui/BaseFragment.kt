@@ -49,11 +49,13 @@ abstract class BaseFragment<B : ViewBinding, VM : BaseViewModel>(bindingFactory:
             viewModel.navigation.collect { state ->
                 when (state) {
                     is NavigationCommand.ToDirection -> {
-
                         navController.navigate(state.directions, state.navOptions)
                         viewModel.resetState()
                     }
-                    is NavigationCommand.Back -> {
+                    is NavigationCommand.Back<*> -> {
+                        if (state.key != null && state.data != null) {
+                            returnData(state.key, state.data)
+                        }
                         navController.popBackStack()
                         viewModel.resetState()
                     }
@@ -77,5 +79,23 @@ abstract class BaseFragment<B : ViewBinding, VM : BaseViewModel>(bindingFactory:
 
     protected fun showError(error: Throwable) {
         Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+    }
+
+    protected fun <T> observeResultFromDestination(key: String, observeResult: (T) -> Unit): T? {
+        var r: T? = null
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+            ?.observe(viewLifecycleOwner) { result ->
+                r = result
+                observeResult(result)
+            }
+        return r
+    }
+
+    private fun <T> returnData(key: String, result: T) {
+        navController.previousBackStackEntry?.savedStateHandle?.set(key, result)
+        /*
+        If you’d only like to handle a result only once, you must call remove()
+        //this.previousBackStackEntry?.savedStateHandle?.remove(key)
+        */
     }
 }

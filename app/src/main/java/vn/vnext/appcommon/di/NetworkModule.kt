@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import vn.vnext.appcommon.core.AppConstants
 import vn.vnext.appcommon.data.repository.AuthenticationRepositoryImpl
 import vn.vnext.appcommon.data.source.remote.IAuthenticationApi
 import vn.vnext.appcommon.domain.preferences.PrefsHelper
@@ -65,11 +66,11 @@ class NetworkModule {
             .addNetworkInterceptor(interceptor)
             .addInterceptor { chain ->
                 var request = chain.request()
-                val token = prefsHelper.readString("token", null)
+                val token = prefsHelper.readString(AppConstants.TOKEN, null)
                 request =
                     if (token != null) request
                         .newBuilder()
-                        .header("token", token)
+                        .header("accessToken", token)
                         .build()
                     else request
                         .newBuilder()

@@ -20,12 +20,12 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val prefsHelper: PrefsHelper
 ) : BaseViewModel() {
 
 
     private val _uiState = MutableStateFlow<LoginViewState>(LoginViewState.InitState)
     val uiState = _uiState.asStateFlow()
+
     fun login(paramsLogin: ParamsLogin) {
         viewModelScope.launch {
             loginUseCase(paramsLogin)
@@ -37,7 +37,6 @@ class LoginViewModel @Inject constructor(
                     when (response) {
                         is BaseResponse.Success -> {
                             if (response.data.token != null) {
-                                prefsHelper.saveToString(AppConstants.TOKEN, response.data.token!!)
                                 navigateHomeScreen()
                             } else {
                                 _uiState.value = LoginViewState.ErrorState(

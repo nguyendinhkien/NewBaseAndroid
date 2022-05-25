@@ -10,4 +10,11 @@
     <string name="text_error_password_invalid">Password is invalid</string>
     <string name="text_button_logout">Logout</string>
     <string name="text_button_register">Register</string>
+    <string name="text_label_new_user">New User</string>
+    <string name="text_button_login">Login</string>
+    <string name="text_error_re_password_not_match">Password and Re-password must be match</string>
+    <string name="text_error_re_password_invalid">Re-password is invalid</string>
+    <string name="text_hint_re_password">Re-password</string>
+    <string name="text_hint_email">Email</string>
+    <string name="text_error_email_invalid">Email is invalid</string>
 </resources>

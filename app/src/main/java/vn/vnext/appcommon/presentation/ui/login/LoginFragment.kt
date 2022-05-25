@@ -24,11 +24,13 @@ class LoginFragment :
 
     override fun onViewReady(savedInstanceState: Bundle?) {
         binding.apply {
+
             validation.addValidation(
                 tilUsername,
                 AppConstants.USERNAME_REGEX,
                 getString(R.string.text_error_username_invalid)
             )
+
             validation.addValidation(
                 tilPassword,
                 AppConstants.PASSWORD_REGEX,
@@ -48,6 +50,7 @@ class LoginFragment :
 
             buttonRegister.setOnClickListener {
                 viewModel.navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+                validation.clear()
             }
         }
 
@@ -66,6 +69,7 @@ class LoginFragment :
                 }
             }
         }
+
     }
 
 }

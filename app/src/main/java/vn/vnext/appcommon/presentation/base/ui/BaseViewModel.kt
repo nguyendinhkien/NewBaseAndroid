@@ -24,7 +24,11 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun popBack() {
-        _navigation.update { NavigationCommand.Back }
+        _navigation.update { NavigationCommand.Back(null, null) }
+    }
+
+    fun <T> popBackWithData(key: String, data: T) {
+        _navigation.update { NavigationCommand.Back(key, data) }
     }
 
     fun resetState() {
@@ -40,5 +44,5 @@ sealed class NavigationCommand {
     ) :
         NavigationCommand()
 
-    object Back : NavigationCommand()
+    data class Back<T>(val key: String? = null, val data: T? = null) : NavigationCommand()
 }
