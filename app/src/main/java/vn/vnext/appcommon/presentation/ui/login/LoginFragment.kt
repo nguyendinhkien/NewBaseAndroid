@@ -13,6 +13,7 @@ import vn.vnext.appcommon.core.AppConstants
 import vn.vnext.appcommon.databinding.FragmentLoginBinding
 import vn.vnext.appcommon.domain.model.login.ParamsLogin
 import vn.vnext.appcommon.presentation.base.ui.BaseFragment
+import vn.vnext.appcommon.utils.stateFlowCollect
 
 @AndroidEntryPoint
 class LoginFragment :
@@ -54,22 +55,22 @@ class LoginFragment :
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.uiState.collect { state ->
-                when (state) {
-                    is LoginViewState.LoadingState -> {
-                        showLoading(state.isShowLoading)
-                    }
-                    is LoginViewState.ErrorState -> {
-                        showError(state.error)
-                    }
-                    else -> {
+        stateFlowCollect(viewModel.uiState, this::collection)
 
-                    }
-                }
+    }
+
+    private fun collection(state: LoginViewState){
+        when (state) {
+            is LoginViewState.LoadingState -> {
+                showLoading(state.isShowLoading)
+            }
+            is LoginViewState.ErrorState -> {
+                showError(state.error)
+            }
+            else -> {
+
             }
         }
-
     }
 
 }

@@ -4,7 +4,7 @@ import org.json.JSONObject
 import retrofit2.HttpException
 
 class NetworkErrorException(
-    val errorCode: Int = -1,
+    private val errorCode: Int = -1,
     private val errorMessage: String,
 ) : Exception() {
     override val message: String

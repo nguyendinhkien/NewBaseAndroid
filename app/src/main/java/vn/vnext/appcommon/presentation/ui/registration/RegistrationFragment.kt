@@ -1,21 +1,18 @@
 package vn.vnext.appcommon.presentation.ui.registration
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
-import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation
 import dagger.hilt.android.AndroidEntryPoint
 import vn.vnext.appcommon.R
 import vn.vnext.appcommon.core.AppConstants
 import vn.vnext.appcommon.databinding.FragmentRegistrationBinding
 import vn.vnext.appcommon.domain.model.registration.ParamsRegistration
 import vn.vnext.appcommon.presentation.base.ui.BaseFragment
+import vn.vnext.appcommon.presentation.ui.login.LoginViewState
+import vn.vnext.appcommon.utils.stateFlowCollect
 
 @AndroidEntryPoint
 class RegistrationFragment :
@@ -72,18 +69,18 @@ class RegistrationFragment :
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.uiState.collect { state ->
-                when (state) {
-                    is RegistrationViewState.LoadingState -> {
-                        showLoading(state.isShowLoading)
-                    }
-                    is RegistrationViewState.ErrorState -> {
-                        showError(state.error)
-                    }
-                    else -> {
-                    }
-                }
+        stateFlowCollect(viewModel.uiState, this::collection)
+    }
+
+    private fun collection(state: RegistrationViewState) {
+        when (state) {
+            is RegistrationViewState.LoadingState -> {
+                showLoading(state.isShowLoading)
+            }
+            is RegistrationViewState.ErrorState -> {
+                showError(state.error)
+            }
+            else -> {
             }
         }
     }
