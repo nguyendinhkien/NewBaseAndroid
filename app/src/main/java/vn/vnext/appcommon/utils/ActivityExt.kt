@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.reflect.KFunction1
 
-fun Context.getColor(id: Int): Int = ContextCompat.getColor(this, id)
-fun Context.getDrawable(id: Int): Drawable? = ContextCompat.getDrawable(this, id)
+fun Context.color(id: Int): Int = ContextCompat.getColor(this, id)
+fun Context.drawable(id: Int): Drawable? = ContextCompat.getDrawable(this, id)
 
 fun <T> Fragment.stateFlowCollect(stateFlow: StateFlow<T>, collection: KFunction1<T, Unit>) {
     viewLifecycleOwner.lifecycleScope.launchWhenCreated {
