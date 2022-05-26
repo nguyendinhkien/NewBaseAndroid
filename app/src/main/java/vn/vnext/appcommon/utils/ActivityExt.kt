@@ -7,17 +7,22 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlin.reflect.KFunction1
 
 fun Context.color(id: Int): Int = ContextCompat.getColor(this, id)
 fun Context.drawable(id: Int): Drawable? = ContextCompat.getDrawable(this, id)
 
 fun <T> Fragment.stateFlowCollect(stateFlow: StateFlow<T>, collection: KFunction1<T, Unit>) {
-    viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-        stateFlow.collect { state ->
-            collection(state)
+    viewLifecycleOwner.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.CREATED) {
+            stateFlow.collect { state ->
+                collection(state)
+            }
         }
     }
 }
