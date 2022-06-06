@@ -7,6 +7,6 @@ class AppConstants {
         const val PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
         const val EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
         //Key
-        const val TOKEN = "USER_ACCESS_TOKEN"
+        const val PREF_KEY_ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN "
     }
 }

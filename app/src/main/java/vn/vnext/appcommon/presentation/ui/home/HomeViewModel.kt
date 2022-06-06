@@ -15,12 +15,12 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeViewState>() {
 
     fun logout() {
-        prefsHelper.remove(AppConstants.TOKEN)
+        prefsHelper.remove(AppConstants.PREF_KEY_ACCESS_TOKEN)
         setUiSuccessState(HomeViewState.AuthenticationState(false))
     }
 
     init {
-        val accessToken = prefsHelper.readString(AppConstants.TOKEN, null)
+        val accessToken = prefsHelper.readString(AppConstants.PREF_KEY_ACCESS_TOKEN, null)
         if (accessToken == null) {
             setUiSuccessState(HomeViewState.AuthenticationState(false))
         } else {

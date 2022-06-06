@@ -66,7 +66,7 @@ class NetworkModule {
             .addNetworkInterceptor(interceptor)
             .addInterceptor { chain ->
                 var request = chain.request()
-                val token = prefsHelper.readString(AppConstants.TOKEN, null)
+                val token = prefsHelper.readString(AppConstants.PREF_KEY_ACCESS_TOKEN, null)
                 request =
                     if (token != null) request
                         .newBuilder()

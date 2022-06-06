@@ -15,8 +15,10 @@ import androidx.navigation.navOptions
 import androidx.viewbinding.ViewBinding
 import vn.vnext.appcommon.R
 import vn.vnext.appcommon.core.NetworkErrorException
+import vn.vnext.appcommon.domain.preferences.PrefsHelper
 import vn.vnext.appcommon.presentation.SharedViewModel
 import vn.vnext.appcommon.utils.LoadingUtils
+import javax.inject.Inject
 
 abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bindingFactory: (LayoutInflater) -> B) :
     Fragment() {

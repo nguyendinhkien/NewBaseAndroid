@@ -11,6 +11,9 @@ import javax.inject.Inject
 
 abstract class BaseViewModel<T : Any> : ViewModel() {
 
+    @Inject
+    lateinit var prefs: PrefsHelper
+
     private val _navigation = MutableStateFlow<NavigationCommand>(NavigationCommand.StayHere)
     val navigation = _navigation.asStateFlow()
 
@@ -46,6 +49,7 @@ abstract class BaseViewModel<T : Any> : ViewModel() {
     }
 
     fun accessTokenExpired() {
+        prefs.remove(AppConstants.PREF_KEY_ACCESS_TOKEN)
         _navigation.update { NavigationCommand.ToLoginScreen }
     }
 
