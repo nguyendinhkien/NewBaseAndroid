@@ -16,23 +16,19 @@ import vn.vnext.appcommon.presentation.ui.login.LoginFragmentDirections
 
 @AndroidEntryPoint
 class HomeFragment :
-    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
+    BaseFragment<FragmentHomeBinding, HomeViewState, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by viewModels()
     override fun onViewReady(savedInstanceState: Bundle?) {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.uiState.collect { state ->
-                when (state) {
-                    is HomeViewState.AuthenticationState -> {
-                        if (!state.isAuthenticated) {
-                            navigateLoginScreen()
-                        }
-                    }
-                    else -> {
-
+        onSuccessState = { state ->
+            when (state) {
+                is HomeViewState.AuthenticationState -> {
+                    if (!state.isAuthenticated) {
+                        navigateLoginScreen()
                     }
                 }
             }
         }
+
         binding.apply {
             buttonLogout.setOnClickListener {
                 viewModel.logout()

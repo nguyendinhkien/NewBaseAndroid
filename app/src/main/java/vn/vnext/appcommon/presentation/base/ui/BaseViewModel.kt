@@ -3,18 +3,24 @@ package vn.vnext.appcommon.presentation.base.ui
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import vn.vnext.appcommon.R
+import vn.vnext.appcommon.core.AppConstants
+import vn.vnext.appcommon.domain.preferences.PrefsHelper
+import javax.inject.Inject
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel<T : Any> : ViewModel() {
 
     private val _navigation = MutableStateFlow<NavigationCommand>(NavigationCommand.StayHere)
     val navigation = _navigation.asStateFlow()
 
-    fun navigate(navDirections: NavDirections, navOptionsBuilder: NavOptions.Builder? = null) {
+    protected val _uiState = MutableStateFlow<BaseState<T>>(BaseState.InitState)
+    val uiState = _uiState.asStateFlow()
+
+    fun navigate(
+        navDirections: NavDirections,
+        navOptionsBuilder: NavOptions.Builder? = null
+    ) {
         val builder: NavOptions.Builder = navOptionsBuilder ?: NavOptions.Builder()
         builder.setEnterAnim(R.anim.slide_left)
             .setExitAnim(R.anim.wait_anim)
@@ -34,15 +40,24 @@ abstract class BaseViewModel : ViewModel() {
     fun resetState() {
         _navigation.update { NavigationCommand.StayHere }
     }
+
+    protected fun setUiSuccessState(value: T) {
+        _uiState.update { BaseState.SuccessState(value) }
+    }
+
+    fun accessTokenExpired() {
+        _navigation.update { NavigationCommand.ToLoginScreen }
+    }
+
 }
 
 sealed class NavigationCommand {
     object StayHere : NavigationCommand()
+    object ToLoginScreen : NavigationCommand()
     data class ToDirection(
         val directions: NavDirections,
         val navOptions: NavOptions? = null
-    ) :
-        NavigationCommand()
+    ) : NavigationCommand()
 
     data class Back<T>(val key: String? = null, val data: T? = null) : NavigationCommand()
 }

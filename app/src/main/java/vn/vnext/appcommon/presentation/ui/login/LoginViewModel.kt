@@ -14,39 +14,38 @@ import vn.vnext.appcommon.core.NetworkErrorException
 import vn.vnext.appcommon.domain.model.login.ParamsLogin
 import vn.vnext.appcommon.domain.preferences.PrefsHelper
 import vn.vnext.appcommon.domain.usecase.authenication.LoginUseCase
+import vn.vnext.appcommon.presentation.base.ui.BaseState
 import vn.vnext.appcommon.presentation.base.ui.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-) : BaseViewModel() {
-
-
-    private val _uiState = MutableStateFlow<LoginViewState>(LoginViewState.InitState)
-    val uiState = _uiState.asStateFlow()
+) : BaseViewModel<LoginViewState>() {
 
     fun login(paramsLogin: ParamsLogin) {
         viewModelScope.launch {
             loginUseCase(paramsLogin)
                 .onStart {
-                    _uiState.value = LoginViewState.LoadingState(true)
+                    _uiState.value = BaseState.LoadingState(true)
                 }
                 .collect { response ->
-                    _uiState.value = LoginViewState.LoadingState(false)
+                    _uiState.value = BaseState.LoadingState(false)
                     when (response) {
                         is BaseResponse.Success -> {
                             if (response.data.token != null) {
                                 navigateHomeScreen()
                             } else {
-                                _uiState.value = LoginViewState.ErrorState(
-                                    NetworkErrorException(errorMessage = response.data.reason ?: "")
+                                _uiState.value = BaseState.FailureState(
+                                    NetworkErrorException(
+                                        errorMessage = response.data.reason ?: ""
+                                    )
                                 )
                             }
                         }
 
                         is BaseResponse.Failure -> {
-                            _uiState.value = LoginViewState.ErrorState(response.error)
+                            _uiState.value = BaseState.FailureState(response.error)
                         }
                     }
                 }
@@ -59,5 +58,7 @@ class LoginViewModel @Inject constructor(
         val navDirections =
             LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         navigate(navDirections, navOptions)
+
+        popBack()
     }
 }

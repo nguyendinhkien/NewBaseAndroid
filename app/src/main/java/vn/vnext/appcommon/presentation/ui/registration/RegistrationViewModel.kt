@@ -11,33 +11,32 @@ import vn.vnext.appcommon.core.BaseResponse
 import vn.vnext.appcommon.domain.model.registration.ParamsRegistration
 import vn.vnext.appcommon.domain.preferences.PrefsHelper
 import vn.vnext.appcommon.domain.usecase.authenication.RegistrationUseCase
+import vn.vnext.appcommon.presentation.base.ui.BaseState
 import vn.vnext.appcommon.presentation.base.ui.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val registration: RegistrationUseCase,
-    private val prefsHelper: PrefsHelper
-) : BaseViewModel() {
+) : BaseViewModel<RegistrationViewState>() {
 
-    private val _uiState = MutableStateFlow<RegistrationViewState>(RegistrationViewState.InitState)
-    val uiState = _uiState.asStateFlow()
+//    private val _uiState = MutableStateFlow<RegistrationViewState>(RegistrationViewState.InitState)
+//    val uiState = _uiState.asStateFlow()
 
     fun registerUser(paramsRegistration: ParamsRegistration) {
         viewModelScope.launch {
             registration(paramsRegistration)
                 .onStart {
-                    _uiState.update { RegistrationViewState.LoadingState(true) }
+                    _uiState.update { BaseState.LoadingState(true) }
                 }
                 .collect { response ->
-                    _uiState.update { RegistrationViewState.LoadingState(false) }
+                    _uiState.update { BaseState.LoadingState(false) }
 
                     when (response) {
                         is BaseResponse.Failure -> {
-                            _uiState.update { RegistrationViewState.ErrorState(response.error) }
+                            _uiState.update { BaseState.FailureState(response.error) }
                         }
                         is BaseResponse.Success -> {
-                            prefsHelper.saveToString(AppConstants.TOKEN, response.data.token ?: "")
                             navigateToHomeScreen()
                         }
                     }

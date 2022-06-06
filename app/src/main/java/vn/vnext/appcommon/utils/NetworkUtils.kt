@@ -10,15 +10,16 @@ import retrofit2.HttpException
 import retrofit2.Response
 import vn.vnext.appcommon.core.BaseResponse
 import vn.vnext.appcommon.core.NetworkErrorException
+import vn.vnext.appcommon.domain.preferences.PrefsHelper
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
 class NetworkUtils {
     companion object {
         private fun resolveError(e: Throwable): Throwable {
             var error = e
-            println("--------------$e")
             when (e) {
                 is SocketTimeoutException -> {
                     error = NetworkErrorException(errorMessage = "Connection error")
@@ -91,10 +92,11 @@ class NetworkUtils {
                     BaseResponse.Failure(
                         NetworkErrorException(
                             errorCode = response.code(),
-                            errorMessage = "API call failed with error: " + response.message()
+                            errorMessage = response.message()
                         )
                     )
                 )
+
             }.catch { e ->
                 emit(BaseResponse.Failure(resolveError(e)))
                 return@catch

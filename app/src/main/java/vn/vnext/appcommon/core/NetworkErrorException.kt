@@ -4,9 +4,10 @@ import org.json.JSONObject
 import retrofit2.HttpException
 
 class NetworkErrorException(
-    private val errorCode: Int = -1,
+    val errorCode: Int = -1,
     private val errorMessage: String,
-) : Exception() {
+) : Throwable() {
+
     override val message: String
         get() = localizedMessage
 
@@ -15,6 +16,11 @@ class NetworkErrorException(
     }
 
     companion object {
+        //error code
+        const val ACCESS_TOKEN_EXPIRED = 401
+
+
+        //utils
         fun parseException(e: HttpException): NetworkErrorException {
             val errorBody = e.response()?.errorBody()?.string()
             return try {

@@ -16,7 +16,9 @@ import vn.vnext.appcommon.utils.stateFlowCollect
 
 @AndroidEntryPoint
 class RegistrationFragment :
-    BaseFragment<FragmentRegistrationBinding, RegistrationViewModel>(FragmentRegistrationBinding::inflate) {
+    BaseFragment<FragmentRegistrationBinding, RegistrationViewState, RegistrationViewModel>(
+        FragmentRegistrationBinding::inflate
+    ) {
     override val viewModel: RegistrationViewModel by viewModels()
 
     private val validation: AwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
@@ -68,21 +70,5 @@ class RegistrationFragment :
                 }
             }
         }
-
-        stateFlowCollect(viewModel.uiState, this::collection)
     }
-
-    private fun collection(state: RegistrationViewState) {
-        when (state) {
-            is RegistrationViewState.LoadingState -> {
-                showLoading(state.isShowLoading)
-            }
-            is RegistrationViewState.ErrorState -> {
-                showError(state.error)
-            }
-            else -> {
-            }
-        }
-    }
-
 }

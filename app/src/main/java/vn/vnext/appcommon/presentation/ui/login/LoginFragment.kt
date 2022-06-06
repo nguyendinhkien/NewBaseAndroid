@@ -2,6 +2,9 @@ package vn.vnext.appcommon.presentation.ui.login
 
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
@@ -17,7 +20,7 @@ import vn.vnext.appcommon.utils.stateFlowCollect
 
 @AndroidEntryPoint
 class LoginFragment :
-    BaseFragment<FragmentLoginBinding, LoginViewModel>(FragmentLoginBinding::inflate) {
+    BaseFragment<FragmentLoginBinding, LoginViewState, LoginViewModel>(FragmentLoginBinding::inflate) {
 
     override val viewModel: LoginViewModel by viewModels()
 
@@ -52,23 +55,6 @@ class LoginFragment :
             buttonRegister.setOnClickListener {
                 viewModel.navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
                 validation.clear()
-            }
-        }
-
-        stateFlowCollect(viewModel.uiState, this::collection)
-
-    }
-
-    private fun collection(state: LoginViewState){
-        when (state) {
-            is LoginViewState.LoadingState -> {
-                showLoading(state.isShowLoading)
-            }
-            is LoginViewState.ErrorState -> {
-                showError(state.error)
-            }
-            else -> {
-
             }
         }
     }
