@@ -60,7 +60,7 @@ sealed class NavigationCommand {
     object ToLoginScreen : NavigationCommand()
     data class ToDirection(
         val directions: NavDirections,
-        val navOptions: NavOptions? = null
+        val navOptions: NavOptions
     ) : NavigationCommand()
 
     data class Back<T>(val key: String? = null, val data: T? = null) : NavigationCommand()

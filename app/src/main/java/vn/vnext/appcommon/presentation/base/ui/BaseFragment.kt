@@ -18,6 +18,7 @@ import vn.vnext.appcommon.core.NetworkErrorException
 import vn.vnext.appcommon.domain.preferences.PrefsHelper
 import vn.vnext.appcommon.presentation.SharedViewModel
 import vn.vnext.appcommon.utils.LoadingUtils
+import vn.vnext.appcommon.utils.safeNavigate
 import javax.inject.Inject
 
 abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bindingFactory: (LayoutInflater) -> B) :
@@ -81,7 +82,7 @@ abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bin
                 when (state) {
                     is NavigationCommand.ToDirection -> {
                         state.directions
-                        navController.navigate(state.directions, state.navOptions)
+                        navController.safeNavigate(state.directions, state.navOptions)
                     }
                     is NavigationCommand.Back<*> -> {
                         if (state.key != null && state.data != null) {
@@ -92,10 +93,12 @@ abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bin
                     is NavigationCommand.ToLoginScreen -> {
                         navController.navigate(
                             R.id.loginFragment, null,
-                            NavOptions.Builder().setPopUpTo(
-                                navController.currentDestination!!.id,
-                                inclusive = true,
-                            ).build()
+                            navController.currentDestination?.id?.let {
+                                NavOptions.Builder().setPopUpTo(
+                                    it,
+                                    inclusive = true,
+                                ).build()
+                            }
                         )
                     }
                     else -> {

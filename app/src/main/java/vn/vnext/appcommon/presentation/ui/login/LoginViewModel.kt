@@ -58,7 +58,5 @@ class LoginViewModel @Inject constructor(
         val navDirections =
             LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         navigate(navDirections, navOptions)
-
-        popBack()
     }
 }
