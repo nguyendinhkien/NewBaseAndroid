@@ -7,11 +7,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.databinding.FragmentHomeBinding
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseFragment
+import vn.nguyendinhkien.appcommon.presentation.ui.list.ListViewAdapter
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment :
     BaseFragment<FragmentHomeBinding, HomeViewState, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by viewModels()
+
     override fun onViewReady(savedInstanceState: Bundle?) {
         onSuccessState = { state ->
             when (state) {
