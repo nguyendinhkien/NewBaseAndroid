@@ -12,6 +12,12 @@ abstract class BaseListAdapter<T, VH : BaseListAdapter<T, VH>.BaseViewHolder>(di
 
     private lateinit var mContext: Context
 
+    private var onClickListener: ((T) -> Unit)? = null
+
+    fun setOnClickListener(onClickListener: ((T) -> Unit)) {
+        this.onClickListener = onClickListener;
+    }
+
     val context get() = mContext
 
     abstract inner class BaseViewHolder(binding: ViewBinding) :
