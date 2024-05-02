@@ -25,15 +25,6 @@ local.properties
 .gradle
 # IntelliJ
 *.iml
-/.idea/workspace.xml
-/.idea/tasks.xml
-/.idea/gradle.xml
-/.idea/assetWizardSettings.xml
-/.idea/dictionaries
-/.idea/libraries
-/.idea/caches
-/.idea/modules.xml
-/.idea/navEditor.xml
-/.idea/misc.xml
+.idea
 # Log Files
 *.log

@@ -1,5 +1,6 @@
 package vn.vnext.appcommon.presentation.base.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,7 @@ abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bin
         onViewReady(savedInstanceState)
         onNavigationStateCollection()
         onUiStateCollection()
+        view.setBackgroundColor(Color.WHITE)
     }
 
     protected var onSuccessState: (T) -> Unit = {}
