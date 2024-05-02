@@ -21,8 +21,8 @@ class LoginFragment :
     private val validation: AwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
 
     override fun onViewReady(savedInstanceState: Bundle?) {
-        binding.apply {
 
+        binding.apply {
             validation.addValidation(
                 tilUsername,
                 AppConstants.USERNAME_REGEX,

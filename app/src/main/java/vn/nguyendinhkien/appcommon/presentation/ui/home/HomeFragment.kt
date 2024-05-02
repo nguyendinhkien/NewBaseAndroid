@@ -15,14 +15,20 @@ class HomeFragment :
     BaseFragment<FragmentHomeBinding, HomeViewState, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by viewModels()
 
+
+
     override fun onViewReady(savedInstanceState: Bundle?) {
-        onSuccessState = { state ->
-            when (state) {
+
+        onSuccessState = {state ->
+            when(state){
                 is HomeViewState.AuthenticationState -> {
                     if (!state.isAuthenticated) {
-                        navigateLoginScreen()
+                        viewModel.logout()
                     }
+
+
                 }
+
             }
         }
 
@@ -30,12 +36,11 @@ class HomeFragment :
             buttonLogout.setOnClickListener {
                 viewModel.logout()
             }
+            buttonWebView.setOnClickListener {
+                viewModel.navigateWebViewScreen()
+            }
         }
     }
 
-    private fun navigateLoginScreen() {
-        val navOptions = NavOptions.Builder().setPopUpTo(R.id.homeFragment, true)
-        val navDirections = HomeFragmentDirections.actionHomeFragmentToLoginFragment()
-        viewModel.navigate(navDirections, navOptions)
-    }
+
 }

@@ -1,6 +1,8 @@
 package vn.nguyendinhkien.appcommon.presentation.ui.home
 
+import androidx.navigation.NavOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.core.AppConstants
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseViewModel
@@ -12,8 +14,12 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeViewState>() {
 
     fun logout() {
-        prefsHelper.remove(AppConstants.PREF_KEY_ACCESS_TOKEN)
-        setUiSuccessState(HomeViewState.AuthenticationState(false))
+        accessTokenExpired()
+    }
+
+    fun navigateWebViewScreen() {
+        val navDirections = HomeFragmentDirections.actionHomeFragmentToWebViewFragment()
+        navigate(navDirections)
     }
 
     init {

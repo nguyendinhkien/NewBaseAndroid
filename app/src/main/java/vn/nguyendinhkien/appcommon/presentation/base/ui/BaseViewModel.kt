@@ -65,3 +65,9 @@ sealed class NavigationCommand {
 
     data class Back<T>(val key: String? = null, val data: T? = null) : NavigationCommand()
 }
+
+class QuickState {}
+
+class QuickViewModel @Inject constructor(): BaseViewModel<QuickState>(){
+
+}

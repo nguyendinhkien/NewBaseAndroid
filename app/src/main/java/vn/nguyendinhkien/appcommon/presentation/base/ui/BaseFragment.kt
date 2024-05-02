@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.launch
 import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.core.NetworkErrorException
 import vn.nguyendinhkien.appcommon.presentation.SharedViewModel
@@ -56,6 +59,7 @@ abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bin
                     is BaseState.LoadingState -> {
                         showLoading(state.isShowLoading)
                     }
+
                     is BaseState.FailureState -> {
                         val error = state.error
                         showError(error = error)
@@ -63,9 +67,11 @@ abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bin
                             viewModel.accessTokenExpired()
                         }
                     }
+
                     is BaseState.SuccessState -> {
                         onSuccessState(state.value)
                     }
+
                     else -> {}
                 }
             }
@@ -75,37 +81,46 @@ abstract class BaseFragment<B : ViewBinding, T : Any, VM : BaseViewModel<T>>(bin
 
     private fun onNavigationStateCollection() {
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.navigation.collect { state ->
-                println("Navigation State: ${state.javaClass.simpleName}")
-                when (state) {
-                    is NavigationCommand.ToDirection -> {
-                        state.directions
-                        navController.safeNavigate(state.directions, state.navOptions)
-                    }
-                    is NavigationCommand.Back<*> -> {
-                        if (state.key != null && state.data != null) {
-                            returnData(state.key, state.data)
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.navigation.collect { state ->
+                    println("${viewModel.javaClass.simpleName} Navigation State: ${state.javaClass.simpleName}")
+                    when (state) {
+                        is NavigationCommand.ToDirection -> {
+                            navController.safeNavigate(state.directions, state.navOptions)
+                            viewModel.resetState()
                         }
-                        navController.popBackStack()
-                    }
-                    is NavigationCommand.ToLoginScreen -> {
-                        navController.navigate(
-                            R.id.loginFragment, null,
-                            navController.currentDestination?.id?.let {
+
+                        is NavigationCommand.Back<*> -> {
+                            if (state.key != null && state.data != null) {
+                                returnData(state.key, state.data)
+                            }
+                            navController.popBackStack()
+                        }
+
+                        is NavigationCommand.ToLoginScreen -> {
+                            val navOptions = navController.currentDestination?.id?.let {
                                 NavOptions.Builder().setPopUpTo(
                                     it,
                                     inclusive = true,
+                                    saveState = false
                                 ).build()
                             }
-                        )
-                    }
-                    else -> {
+                            navController.navigate(
+                                resId = R.id.loginFragment,
+                                args = null,
+                                navOptions = navOptions
+                            )
+                        }
 
+                        else -> {
+
+                        }
                     }
+
                 }
-                viewModel.resetState()
             }
+
         }
     }
 
