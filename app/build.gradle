@@ -10,7 +10,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "vn.vnext.appcommon"
+        applicationId "vn.nguyendinhkien.appcommon"
         minSdk 21
         targetSdk 34
         versionCode 1
