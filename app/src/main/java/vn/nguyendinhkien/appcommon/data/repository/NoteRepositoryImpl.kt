@@ -12,7 +12,7 @@ import vn.nguyendinhkien.appcommon.presentation.ui.list.Note
 class NoteRepositoryImpl(): INoteRepository {
     override suspend fun fetchNotes(): Flow<List<Note>> {
         coroutineScope {
-            delay(5000)
+            delay(1000)
         }
 
         return flowOf(

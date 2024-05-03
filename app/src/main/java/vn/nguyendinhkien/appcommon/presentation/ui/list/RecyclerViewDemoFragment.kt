@@ -1,16 +1,11 @@
 package vn.nguyendinhkien.appcommon.presentation.ui.list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.databinding.FragmentRecyclerViewDemoBinding
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseFragment
-import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecyclerViewDemoFragment() :
@@ -18,10 +13,22 @@ class RecyclerViewDemoFragment() :
         FragmentRecyclerViewDemoBinding::inflate
     ) {
     override val viewModel: RecyclerViewDemoViewModel by viewModels()
+
+    var adapter:ListViewAdapter? = null @Inject set
+
     override fun onViewReady(savedInstanceState: Bundle?) {
-        println("RecyclerViewDemoFragment onViewReady")
-        onSuccessState = {state->
-            println("onSuccess ${state.size}")
+        binding.apply {
+            listNote.adapter = adapter
+        }
+        onSuccessState = {data->
+            adapter!!.apply {
+                submitList(data)
+                setOnItemClickListener(object : ListViewAdapter.OnClickListener{
+                    override fun onClick(item: Note, position: Int) {
+                        println("Clicked $position")
+                    }
+                })
+            }
         }
     }
 

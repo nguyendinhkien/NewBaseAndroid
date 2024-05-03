@@ -12,21 +12,15 @@ abstract class BaseListAdapter<T, VH : BaseListAdapter<T, VH>.BaseViewHolder>(di
 
     private lateinit var mContext: Context
 
-    private var onClickListener: ((T) -> Unit)? = null
-
-    fun setOnClickListener(onClickListener: ((T) -> Unit)) {
-        this.onClickListener = onClickListener;
-    }
-
     val context get() = mContext
 
     abstract inner class BaseViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        abstract fun bindView(item: T)
+        abstract fun bindView(item: T, position: Int)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bindView(getItem(position))
+        holder.bindView(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
