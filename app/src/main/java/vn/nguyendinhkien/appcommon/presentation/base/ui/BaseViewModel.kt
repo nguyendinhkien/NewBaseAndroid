@@ -3,22 +3,36 @@ package vn.nguyendinhkien.appcommon.presentation.base.ui
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
 import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.core.AppConstants
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<T : Any> : ViewModel() {
+abstract class BaseViewModel<T : Any> : ViewModel(), CoroutineScope {
 
     @Inject
     lateinit var prefs: PrefsHelper
+
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
+    private val job: Job = SupervisorJob()
 
     private val _navigation = MutableStateFlow<NavigationCommand>(NavigationCommand.StayHere)
     val navigation = _navigation.asStateFlow()
 
     protected val _uiState = MutableStateFlow<BaseState<T>>(BaseState.InitState)
     val uiState = _uiState.asStateFlow()
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
+
 
     fun navigate(
         navDirections: NavDirections,

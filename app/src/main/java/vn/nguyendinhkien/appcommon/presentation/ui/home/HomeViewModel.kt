@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun navigateWebViewScreen() {
-        val navDirections = HomeFragmentDirections.actionHomeFragmentToWebViewFragment()
+        val navDirections = HomeFragmentDirections.actionHomeFragmentToRecyclerViewDemoFragment()
         navigate(navDirections)
     }
 

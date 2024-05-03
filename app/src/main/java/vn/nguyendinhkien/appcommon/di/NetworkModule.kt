@@ -13,9 +13,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import vn.nguyendinhkien.appcommon.core.AppConstants
 import vn.nguyendinhkien.appcommon.data.repository.AuthenticationRepositoryImpl
+import vn.nguyendinhkien.appcommon.data.repository.NoteRepositoryImpl
 import vn.nguyendinhkien.appcommon.data.source.remote.IAuthenticationApi
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
 import vn.nguyendinhkien.appcommon.domain.repository.IAuthenticationRepository
+import vn.nguyendinhkien.appcommon.domain.repository.INoteRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -95,5 +97,11 @@ class NetworkModule {
         prefsHelper: PrefsHelper
     ): IAuthenticationRepository {
         return AuthenticationRepositoryImpl(authenticationApi, prefsHelper)
+    }
+
+    @Provides
+    @Singleton
+    fun providesNoteRepository(): INoteRepository{
+        return NoteRepositoryImpl()
     }
 }

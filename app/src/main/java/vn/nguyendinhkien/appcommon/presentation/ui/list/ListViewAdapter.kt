@@ -9,8 +9,6 @@ import vn.nguyendinhkien.appcommon.presentation.base.adapter.QuickDiffUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class Note(var name: String? = null)
-
 //class NoteDiff : DiffUtil.ItemCallback<Note>() {
 //    override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
 //        return true

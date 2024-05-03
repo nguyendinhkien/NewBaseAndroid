@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_homeFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_recyclerViewDemoFragment"
+            app:destination="@id/recyclerViewDemoFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -41,4 +44,9 @@
         android:name="vn.nguyendinhkien.appcommon.presentation.ui.web_view_demo.WebViewFragment"
         android:label="WebView"
         tools:layout="@layout/fragment_web_view" />
+    <fragment
+        android:id="@+id/recyclerViewDemoFragment"
+        android:name="vn.nguyendinhkien.appcommon.presentation.ui.list.RecyclerViewDemoFragment"
+        android:label="RecyclerView Demo"
+        tools:layout="@layout/fragment_recycler_view_demo" />
 </navigation>
