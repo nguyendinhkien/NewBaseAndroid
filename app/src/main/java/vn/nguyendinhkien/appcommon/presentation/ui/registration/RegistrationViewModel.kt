@@ -2,7 +2,6 @@ package vn.nguyendinhkien.appcommon.presentation.ui.registration
 
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import vn.nguyendinhkien.appcommon.R
@@ -11,10 +10,8 @@ import vn.nguyendinhkien.appcommon.domain.model.registration.ParamsRegistration
 import vn.nguyendinhkien.appcommon.domain.usecase.authenication.RegistrationUseCase
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseState
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class RegistrationViewModel @Inject constructor(
+class RegistrationViewModel(
     private val registration: RegistrationUseCase,
 ) : BaseViewModel<RegistrationViewState>() {
 

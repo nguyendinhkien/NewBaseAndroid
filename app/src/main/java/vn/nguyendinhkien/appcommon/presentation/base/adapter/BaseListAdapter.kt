@@ -16,11 +16,11 @@ abstract class BaseListAdapter<T, VH : BaseListAdapter<T, VH>.BaseViewHolder>(di
 
     abstract inner class BaseViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        abstract fun bindView(item: T)
+        abstract fun bindView(item: T, position: Int)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bindView(getItem(position))
+        holder.bindView(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
