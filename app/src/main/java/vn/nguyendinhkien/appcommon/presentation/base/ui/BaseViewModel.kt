@@ -17,7 +17,7 @@ import org.koin.core.component.inject
 
 abstract class BaseViewModel<T : Any> : ViewModel(), CoroutineScope, KoinComponent {
 
-    private val prefs: PrefsHelper by inject()
+    val prefs: PrefsHelper by inject()
 
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private val job: Job = SupervisorJob()

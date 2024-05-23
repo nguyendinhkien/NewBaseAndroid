@@ -4,7 +4,7 @@ import vn.nguyendinhkien.appcommon.core.AppConstants
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseViewModel
 
-class HomeViewModel(prefsHelper: PrefsHelper) : BaseViewModel<HomeViewState>() {
+class HomeViewModel() : BaseViewModel<HomeViewState>() {
 
     fun logout() {
         accessTokenExpired()
@@ -16,7 +16,7 @@ class HomeViewModel(prefsHelper: PrefsHelper) : BaseViewModel<HomeViewState>() {
     }
 
     init {
-        val accessToken = prefsHelper.readString(AppConstants.PREF_KEY_ACCESS_TOKEN, null)
+        val accessToken = prefs.readString(AppConstants.PREF_KEY_ACCESS_TOKEN, null)
         if (accessToken == null) {
             setUiSuccessState(HomeViewState.AuthenticationState(false))
         } else {

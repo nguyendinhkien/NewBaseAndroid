@@ -14,7 +14,7 @@ import vn.nguyendinhkien.appcommon.presentation.ui.login.LoginViewModel
 import vn.nguyendinhkien.appcommon.presentation.ui.registration.RegistrationViewModel
 
 val appModule = module {
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel() }
     viewModel { RecyclerViewDemoViewModel(NotesUseCase(get())) }
     viewModel { LoginViewModel(LoginUseCase(get())) }
     viewModel { RegistrationViewModel(RegistrationUseCase(get())) }
