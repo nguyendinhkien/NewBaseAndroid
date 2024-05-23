@@ -1,21 +1,15 @@
 package vn.nguyendinhkien.appcommon.presentation
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import dagger.hilt.android.AndroidEntryPoint
 import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.databinding.ActivityMainBinding
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseActivity
 
 
-@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private lateinit var appBarConfiguration: AppBarConfiguration
     override fun onViewReady(savedInstanceState: Bundle?) {

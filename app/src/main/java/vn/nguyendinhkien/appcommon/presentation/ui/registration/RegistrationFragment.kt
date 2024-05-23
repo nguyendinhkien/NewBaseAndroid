@@ -1,22 +1,20 @@
 package vn.nguyendinhkien.appcommon.presentation.ui.registration
 
 import android.os.Bundle
-import androidx.fragment.app.viewModels
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.android.ext.android.inject
 import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.core.AppConstants
 import vn.nguyendinhkien.appcommon.databinding.FragmentRegistrationBinding
 import vn.nguyendinhkien.appcommon.domain.model.registration.ParamsRegistration
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseFragment
 
-@AndroidEntryPoint
 class RegistrationFragment :
     BaseFragment<FragmentRegistrationBinding, RegistrationViewState, RegistrationViewModel>(
         FragmentRegistrationBinding::inflate
     ) {
-    override val viewModel: RegistrationViewModel by viewModels()
+    override val viewModel: RegistrationViewModel by inject()
 
     private val validation: AwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
 

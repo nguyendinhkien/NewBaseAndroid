@@ -10,9 +10,7 @@ import vn.nguyendinhkien.appcommon.domain.model.registration.ParamsRegistration
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
 import vn.nguyendinhkien.appcommon.domain.repository.IAuthenticationRepository
 import vn.nguyendinhkien.appcommon.utils.NetworkUtils
-import javax.inject.Inject
-
-class AuthenticationRepositoryImpl @Inject constructor(
+class AuthenticationRepositoryImpl(
     private val api: IAuthenticationApi,
     private val prefsHelper: PrefsHelper
 ) : IAuthenticationRepository {

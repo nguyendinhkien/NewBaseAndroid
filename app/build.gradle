@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
     id 'androidx.navigation.safeargs.kotlin'
 }
 
@@ -96,10 +95,6 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.9.0"
     implementation "androidx.fragment:fragment-ktx:1.7.0"
 
-    //hilt injection
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
-
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
@@ -150,5 +145,10 @@ dependencies {
 
     //Recyclerview Adapter
     implementation "io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.1.4"
+
+    //Koin
+    implementation("io.insert-koin:koin-androidx-compose:3.5.3")
+    implementation("io.insert-koin:koin-android:3.5.3")
+    implementation("io.insert-koin:koin-androidx-navigation:3.5.3")
 
 }

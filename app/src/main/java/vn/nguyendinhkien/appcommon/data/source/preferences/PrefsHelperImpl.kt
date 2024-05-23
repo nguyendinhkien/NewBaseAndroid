@@ -2,9 +2,8 @@ package vn.nguyendinhkien.appcommon.data.source.preferences
 
 import android.content.SharedPreferences
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
-import javax.inject.Inject
 
-class PrefsHelperImpl @Inject constructor(private val sharedPreferences: SharedPreferences) :
+class PrefsHelperImpl(private val sharedPreferences: SharedPreferences) :
     PrefsHelper {
     private val editor = sharedPreferences.edit()
     override fun saveToString(prefName: String, prefValue: String) {

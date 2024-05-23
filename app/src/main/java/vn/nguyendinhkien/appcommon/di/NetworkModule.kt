@@ -1,14 +1,10 @@
 package vn.nguyendinhkien.appcommon.di
 
-import android.content.Context
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import vn.nguyendinhkien.appcommon.core.AppConstants
@@ -19,48 +15,27 @@ import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
 import vn.nguyendinhkien.appcommon.domain.repository.IAuthenticationRepository
 import vn.nguyendinhkien.appcommon.domain.repository.INoteRepository
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
-@Module
-class NetworkModule {
+private val BASE_URL = "https://restful-booker.herokuapp.com/"
 
-    private val BASE_URL = "https://restful-booker.herokuapp.com/"
+private val READ_TIMEOUT = 30
+private val WRITE_TIMEOUT = 30
+private val CONNECTION_TIMEOUT = 10
+private val CACHE_SIZE_BYTES = 10 * 1024 * 1024L
 
-    private val READ_TIMEOUT = 30
-    private val WRITE_TIMEOUT = 30
-    private val CONNECTION_TIMEOUT = 10
-    private val CACHE_SIZE_BYTES = 10 * 1024 * 1024L
-
-    @Provides
-    @Singleton
-    internal fun provideRetrofit(
-        gsonConverterFactory: GsonConverterFactory,
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
+private val clientModule = module {
+    single<Retrofit> {
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(gsonConverterFactory)
-            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(get())
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun provideGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    @Provides
-    @Singleton
-    fun providesOkHttpClient(
-        @ApplicationContext context: Context,
-        prefsHelper: PrefsHelper
-    ): OkHttpClient {
-        val mCache = Cache(context.cacheDir, CACHE_SIZE_BYTES)
+    single<OkHttpClient> {
+        val mCache = Cache(androidContext().cacheDir, CACHE_SIZE_BYTES)
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder()
+        OkHttpClient.Builder()
             .cache(mCache) // make your app offline-friendly without a database!
             .connectTimeout(CONNECTION_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -68,7 +43,7 @@ class NetworkModule {
             .addNetworkInterceptor(interceptor)
             .addInterceptor { chain ->
                 var request = chain.request()
-                val token = prefsHelper.readString(AppConstants.PREF_KEY_ACCESS_TOKEN, null)
+                val token = get<PrefsHelper>().readString(AppConstants.PREF_KEY_ACCESS_TOKEN, null)
                 request =
                     if (token != null) request
                         .newBuilder()
@@ -79,29 +54,19 @@ class NetworkModule {
                         .build()
                 chain.proceed(request)
             }
-        return client.build()
+            .build()
     }
+}
 
-    //API di
-    @Provides
-    @Singleton
-    fun providesLoginApi(retrofit: Retrofit): IAuthenticationApi {
-        return retrofit.create(IAuthenticationApi::class.java)
-    }
+private val apiModule = module {
+    single<IAuthenticationApi> { get<Retrofit>().create(IAuthenticationApi::class.java) }
+}
 
-    //REPOSITORY di
-    @Provides
-    @Singleton
-    fun providesAuthenticationRepository(
-        authenticationApi: IAuthenticationApi,
-        prefsHelper: PrefsHelper
-    ): IAuthenticationRepository {
-        return AuthenticationRepositoryImpl(authenticationApi, prefsHelper)
-    }
+private val repositoryModule = module {
+    single<IAuthenticationRepository> { AuthenticationRepositoryImpl(get(), get()) }
+    single<INoteRepository> {NoteRepositoryImpl()}
+}
 
-    @Provides
-    @Singleton
-    fun providesNoteRepository(): INoteRepository{
-        return NoteRepositoryImpl()
-    }
+val networkModule = module {
+    includes(clientModule, apiModule, repositoryModule)
 }

@@ -1,20 +1,16 @@
 package vn.nguyendinhkien.appcommon.presentation.ui.list
 
 import android.os.Bundle
-import androidx.fragment.app.viewModels
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.android.ext.android.inject
 import vn.nguyendinhkien.appcommon.databinding.FragmentRecyclerViewDemoBinding
 import vn.nguyendinhkien.appcommon.presentation.base.ui.BaseFragment
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class RecyclerViewDemoFragment() :
     BaseFragment<FragmentRecyclerViewDemoBinding, List<Note>, RecyclerViewDemoViewModel>(
         FragmentRecyclerViewDemoBinding::inflate
     ) {
-    override val viewModel: RecyclerViewDemoViewModel by viewModels()
-
-    var adapter:ListViewAdapter? = null @Inject set
+    override val viewModel: RecyclerViewDemoViewModel by inject()
+    private val adapter:ListViewAdapter by inject()
 
     override fun onViewReady(savedInstanceState: Bundle?) {
         binding.apply {

@@ -4,9 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import vn.nguyendinhkien.appcommon.data.source.local.dao.UserDao
 import vn.nguyendinhkien.appcommon.data.source.local.entities.UserEntity
 import vn.nguyendinhkien.appcommon.domain.repository.UserRepository
-import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(
+class UserRepositoryImpl (
     private val userDao: UserDao
 ) : UserRepository {
 

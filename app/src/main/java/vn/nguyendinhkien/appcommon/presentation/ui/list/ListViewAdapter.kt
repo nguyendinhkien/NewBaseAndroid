@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import vn.nguyendinhkien.appcommon.databinding.ItemRecyclerViewDemoBinding
 import vn.nguyendinhkien.appcommon.presentation.base.adapter.BaseListAdapter
 import vn.nguyendinhkien.appcommon.presentation.base.adapter.QuickDiffUtils
-import javax.inject.Inject
-import javax.inject.Singleton
 
 //class NoteDiff : DiffUtil.ItemCallback<Note>() {
 //    override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
@@ -20,8 +18,7 @@ import javax.inject.Singleton
 
 
 
-@Singleton
-class ListViewAdapter @Inject constructor() :
+class ListViewAdapter() :
     BaseListAdapter<Note, ListViewAdapter.NoteVH>(QuickDiffUtils()) {
 
     // onClickListener Interface

@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.*
 import vn.nguyendinhkien.appcommon.R
 import vn.nguyendinhkien.appcommon.core.AppConstants
 import vn.nguyendinhkien.appcommon.domain.preferences.PrefsHelper
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-abstract class BaseViewModel<T : Any> : ViewModel(), CoroutineScope {
+abstract class BaseViewModel<T : Any> : ViewModel(), CoroutineScope, KoinComponent {
 
-    @Inject
-    lateinit var prefs: PrefsHelper
+    private val prefs: PrefsHelper by inject()
 
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private val job: Job = SupervisorJob()
@@ -82,6 +82,6 @@ sealed class NavigationCommand {
 
 class QuickState {}
 
-class QuickViewModel @Inject constructor(): BaseViewModel<QuickState>(){
+class QuickViewModel(): BaseViewModel<QuickState>(){
 
 }
